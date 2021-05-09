@@ -1,6 +1,6 @@
 package com.attebjorner.hebara.services;
 
-import com.attebjorner.hebara.dao.SentenceDAO;
+import com.attebjorner.hebara.dao.SentenceDao;
 import com.attebjorner.hebara.models.Sentence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +11,10 @@ import java.util.Set;
 @Service
 public class SentenceService
 {
-    private final SentenceDAO sentenceDAO;
+    private final SentenceDao sentenceDAO;
 
     @Autowired
-    public SentenceService(SentenceDAO sentenceDAO)
+    public SentenceService(SentenceDao sentenceDAO)
     {
         this.sentenceDAO = sentenceDAO;
     }

@@ -8,7 +8,7 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public interface SentenceWordDAO<T>
+public interface SentenceWordDao<T>
 {
     SessionFactory factory = new Configuration()
             .configure("hibernate.cfg.xml")

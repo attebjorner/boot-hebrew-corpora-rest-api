@@ -3,13 +3,14 @@ package com.attebjorner.hebara.dao;
 import com.attebjorner.hebara.models.Sentence;
 import com.attebjorner.hebara.models.Word;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class SentenceDAO implements SentenceWordDAO<Sentence>
+public class SentenceDao implements SentenceWordDao<Sentence>
 {
     private static Session session;
 
@@ -84,24 +85,20 @@ public class SentenceDAO implements SentenceWordDAO<Sentence>
         try
         {
             openSession();
-            StringBuilder query = new StringBuilder("from Word where ");
+            StringBuilder queryString = new StringBuilder("from Word where ");
             String[] properties = new String[gram.size()];
+            for (int i = 0; i < properties.length; ++i)
+            {
+                properties[i] = "gram[:k" + i + "] = :v" + i;
+            }
+            queryString.append(String.join(" and ", properties));
+            Query<Word> query = session.createQuery(queryString.toString(), Word.class);
             int i = 0;
             for (String key : gram.keySet())
             {
-                properties[i++] = "gram['" + key + "'] = '" + gram.get(key) + "'";
-//                words.addAll(
-//                        session.createQuery("from Word where gram[:k] = :v", Word.class)
-//                                .setParameter("k", key)
-//                                .setParameter("v", gram.get(key))
-//                                .getResultStream()
-//                                .collect(Collectors.toSet())
-//                );
+                query.setParameter("k" + i, key).setParameter("v" + i++, gram.get(key));
             }
-            query.append(String.join(" and ", properties));
-            Set<Word> words = session.createQuery(query.toString(), Word.class)
-                    .getResultStream()
-                    .collect(Collectors.toSet());
+            Set<Word> words = query.getResultStream().collect(Collectors.toSet());
             for (Word w : words)
             {
                 result.addAll(w.getSentences());

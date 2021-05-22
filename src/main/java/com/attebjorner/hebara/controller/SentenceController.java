@@ -1,8 +1,8 @@
-package com.attebjorner.hebara.controllers;
+package com.attebjorner.hebara.controller;
 
-import com.attebjorner.hebara.models.LanguageType;
-import com.attebjorner.hebara.models.Sentence;
-import com.attebjorner.hebara.services.SentenceService;
+import com.attebjorner.hebara.model.LanguageType;
+import com.attebjorner.hebara.model.Sentence;
+import com.attebjorner.hebara.service.SentenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

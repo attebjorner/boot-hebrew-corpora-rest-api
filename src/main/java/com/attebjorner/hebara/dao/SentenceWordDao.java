@@ -1,12 +1,9 @@
 package com.attebjorner.hebara.dao;
 
-import com.attebjorner.hebara.models.Sentence;
-import com.attebjorner.hebara.models.Word;
-import org.hibernate.Session;
+import com.attebjorner.hebara.model.Sentence;
+import com.attebjorner.hebara.model.Word;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
-import java.util.List;
 
 public interface SentenceWordDao<T>
 {

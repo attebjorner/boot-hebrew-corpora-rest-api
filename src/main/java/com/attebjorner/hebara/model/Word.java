@@ -1,4 +1,4 @@
-package com.attebjorner.hebara.models;
+package com.attebjorner.hebara.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

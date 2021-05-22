@@ -1,12 +1,11 @@
-package com.attebjorner.hebara.controllers;
+package com.attebjorner.hebara.controller;
 
-import com.attebjorner.hebara.models.Word;
-import com.attebjorner.hebara.services.WordService;
+import com.attebjorner.hebara.model.Word;
+import com.attebjorner.hebara.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @RestController

@@ -1,8 +1,9 @@
-package com.attebjorner.hebara.models;
+package com.attebjorner.hebara.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -46,6 +47,19 @@ public class Sentence
         this.originalSentence = originalSentence;
         this.translation = translation;
         this.lang = lang;
+    }
+
+    public List<Integer> allIndexesOf(Word w)
+    {
+        List<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < wordList.size(); ++i)
+        {
+            if (wordList.get(i).equals(w))
+            {
+                indexes.add(i);
+            }
+        }
+        return indexes;
     }
 
     public long getId()

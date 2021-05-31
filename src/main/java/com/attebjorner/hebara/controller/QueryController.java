@@ -29,6 +29,8 @@ public class QueryController
     public Set<SentenceDto> makeSimpleQuery(@RequestParam String query)
     {
         return queryService.getBySimpleQuery(query);
+//        if (res.isEmpty()) throw new Exception();
+//        else return res;
     }
 
     @GetMapping("complex")

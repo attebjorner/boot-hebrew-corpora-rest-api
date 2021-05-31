@@ -28,18 +28,20 @@ public class QueryService
         fillComplexQueryMethodsMap();
     }
 
-    public Set<SentenceDto> getByParameters(TreeMap<String, Object> query)
+    public Set<SentenceDto> getByParameters(TreeMap<String, Object> query, int page)
     {
+        List<Object> values = new ArrayList<>(query.values().stream().toList());
+        values.add(page);
         return COMPLEX_QUERY_METHODS.get(query.keySet())
-                .apply(query.values().toArray())
+                .apply(values.toArray())
                 .stream()
                 .map(x -> new SentenceDto(x.getId(), x.getOriginalSentence()))
                 .collect(Collectors.toSet());
     }
 
-    public Set<SentenceDto> getBySimpleQuery(String queryString)
+    public Set<SentenceDto> getBySimpleQuery(String queryString, int page)
     {
-        return sentenceDao.getByQuery(queryString)
+        return sentenceDao.getByQuery(queryString, page)
                 .stream()
                 .map(x -> new SentenceDto(x.getId(), x.getOriginalSentence()))
                 .collect(Collectors.toSet());
@@ -58,14 +60,18 @@ public class QueryService
     private void fillComplexQueryMethodsMap()
     {
         COMPLEX_QUERY_METHODS.putAll(Map.of(
-                Set.of("lemma"), x -> sentenceDao.getByLemma((String) x[0]),
-                Set.of("pos"), x -> sentenceDao.getByPos((String) x[0]),
-                Set.of("gram"), x -> sentenceDao.getByGram((Map<String, String>) x[0]),
-                Set.of("lemma", "pos"), x -> sentenceDao.getByLemmaPos((String) x[0], (String) x[1]),
-                Set.of("lemma", "gram"), x -> sentenceDao.getByLemmaGram((String) x[1], (Map<String, String>) x[0]),
-                Set.of("pos", "gram"), x -> sentenceDao.getByPosGram((String) x[1], (Map<String, String>) x[0]),
+                Set.of("lemma"), x -> sentenceDao.getByLemma((String) x[0], (Integer) x[1]),
+                Set.of("pos"), x -> sentenceDao.getByPos((String) x[0], (Integer) x[1]),
+                Set.of("gram"), x -> sentenceDao.getByGram((Map<String, String>) x[0], (Integer) x[1]),
+                Set.of("lemma", "pos"), x -> sentenceDao.getByLemmaPos((String) x[0], (String) x[1], (Integer) x[2]),
+                Set.of("lemma", "gram"), x -> sentenceDao.getByLemmaGram(
+                        (String) x[1], (Map<String, String>) x[0], (Integer) x[2]
+                ),
+                Set.of("pos", "gram"), x -> sentenceDao.getByPosGram(
+                        (String) x[1], (Map<String, String>) x[0], (Integer) x[2]
+                ),
                 Set.of("lemma", "pos", "gram"), x -> sentenceDao.getByLemmaPosGram(
-                        (String) x[1], (String) x[2], (Map<String, String>) x[0]
+                        (String) x[1], (String) x[2], (Map<String, String>) x[0], (Integer) x[3]
                 )
         ));
     }

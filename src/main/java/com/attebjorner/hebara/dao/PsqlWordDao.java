@@ -1,5 +1,6 @@
 package com.attebjorner.hebara.dao;
 
+import com.attebjorner.hebara.model.Sentence;
 import com.attebjorner.hebara.model.Word;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

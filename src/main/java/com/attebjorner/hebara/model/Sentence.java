@@ -26,7 +26,7 @@ public class Sentence
     )
     @OrderColumn
     @JsonIgnore
-    private List<Word> wordList;
+    private List<Word> wordlist;
 
     @Column(name = "original_sentence")
     private String originalSentence;
@@ -52,9 +52,9 @@ public class Sentence
     public List<Integer> allIndexesOf(Word w)
     {
         List<Integer> indexes = new ArrayList<>();
-        for (int i = 0; i < wordList.size(); ++i)
+        for (int i = 0; i < wordlist.size(); ++i)
         {
-            if (wordList.get(i).equals(w))
+            if (wordlist.get(i).equals(w))
             {
                 indexes.add(i);
             }
@@ -72,14 +72,14 @@ public class Sentence
         this.id = id;
     }
 
-    public List<Word> getWordList()
+    public List<Word> getWordlist()
     {
-        return wordList;
+        return wordlist;
     }
 
-    public void setWordList(List<Word> wordList)
+    public void setWordlist(List<Word> wordList)
     {
-        this.wordList = wordList;
+        this.wordlist = wordList;
     }
 
     public String getOriginalSentence()

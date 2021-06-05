@@ -27,16 +27,22 @@ public class QueryController
 
     @GetMapping("simple")
     public Set<SentenceDto> makeSimpleQuery(@RequestBody Map<String, String> query,
-                                            @RequestParam(required = false) Integer page)
+                                            @RequestParam(required = false) Integer page,
+                                            @RequestParam(required = false) Integer maxResults)
     {
-        return queryService.getBySimpleQuery(query.get("query"), page == null ? 0 : page);
+        return queryService.getBySimpleQuery(
+                query.get("query"), (page == null) ? 0 : page - 1, (maxResults == null) ? 10 : maxResults
+        );
     }
 
     @GetMapping("complex")
     public Set<SentenceDto> makeComplexQuery(@RequestBody TreeMap<String, Object> query,
-                                             @RequestParam(required = false) Integer page)
+                                             @RequestParam(required = false) Integer page,
+                                             @RequestParam(required = false) Integer maxResults)
     {
-        return queryService.getByParameters(query, page == null ? 0 : page);
+        return queryService.getByParameters(
+                query, (page == null) ? 0 : page - 1, (maxResults == null) ? 10 : maxResults
+        );
     }
 
     @GetMapping("wordlist/{id}")

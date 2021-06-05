@@ -26,7 +26,7 @@ public class QueryController
     }
 
     @GetMapping("simple")
-    public Set<SentenceDto> makeSimpleQuery(@RequestBody Map<String, String> query,
+    public List<SentenceDto> makeSimpleQuery(@RequestBody Map<String, String> query,
                                             @RequestParam(required = false) Integer page,
                                             @RequestParam(required = false) Integer maxResults)
     {
@@ -36,7 +36,7 @@ public class QueryController
     }
 
     @GetMapping("complex")
-    public Set<SentenceDto> makeComplexQuery(@RequestBody TreeMap<String, Object> query,
+    public List<SentenceDto> makeComplexQuery(@RequestBody TreeMap<String, Object> query,
                                              @RequestParam(required = false) Integer page,
                                              @RequestParam(required = false) Integer maxResults)
     {

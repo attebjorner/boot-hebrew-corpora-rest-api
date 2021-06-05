@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class QueryService
 {
     private final SentenceDao sentenceDao;
-    private static final Map<Set<String>, Function<Object[], Set<Sentence>>> COMPLEX_QUERY_METHODS = new HashMap<>();
+    private static final Map<Set<String>, Function<Object[], List<Sentence>>> COMPLEX_QUERY_METHODS = new HashMap<>();
 
     @Autowired
     public QueryService(SentenceDao sentenceDao)
@@ -24,7 +24,7 @@ public class QueryService
         fillComplexQueryMethodsMap();
     }
 
-    public Set<SentenceDto> getByParameters(TreeMap<String, Object> query, int page, int maxResults)
+    public List<SentenceDto> getByParameters(TreeMap<String, Object> query, int page, int maxResults)
     {
         List<Object> values = new ArrayList<>(query.values().stream().toList());
         values.add(page);
@@ -33,15 +33,15 @@ public class QueryService
                 .apply(values.toArray())
                 .stream()
                 .map(x -> new SentenceDto(x.getId(), x.getOriginalSentence()))
-                .collect(Collectors.toSet());
+                .toList();
     }
 
-    public Set<SentenceDto> getBySimpleQuery(String queryString, int page, int maxResults)
+    public List<SentenceDto> getBySimpleQuery(String queryString, int page, int maxResults)
     {
         return sentenceDao.getByQuery(queryString, page, maxResults)
                 .stream()
                 .map(x -> new SentenceDto(x.getId(), x.getOriginalSentence()))
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     public List<WordDto> getWordlist(long id)

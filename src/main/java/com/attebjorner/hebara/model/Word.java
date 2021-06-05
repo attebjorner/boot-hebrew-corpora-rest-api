@@ -3,6 +3,7 @@ package com.attebjorner.hebara.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class Word
             inverseJoinColumns = @JoinColumn(name = "sentence_id", nullable = false)
     )
     @JsonIgnore
-    private Set<Sentence> sentences;
+    private List<Sentence> sentences;
 
     @Enumerated
     @Column(columnDefinition = "int")
@@ -123,12 +124,12 @@ public class Word
         this.translation = translation;
     }
 
-    public Set<Sentence> getSentences()
+    public List<Sentence> getSentences()
     {
         return sentences;
     }
 
-    public void setSentences(Set<Sentence> sentences)
+    public void setSentences(List<Sentence> sentences)
     {
         this.sentences = sentences;
     }

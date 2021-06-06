@@ -3,13 +3,13 @@ package com.attebjorner.hebara.service;
 import com.attebjorner.hebara.dao.SentenceDao;
 import com.attebjorner.hebara.dto.SentenceDto;
 import com.attebjorner.hebara.dto.WordDto;
+import com.attebjorner.hebara.exception_handling.NoSentencesFoundException;
 import com.attebjorner.hebara.model.Sentence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class QueryService
@@ -29,24 +29,36 @@ public class QueryService
         List<Object> values = new ArrayList<>(query.values().stream().toList());
         values.add(page);
         values.add(maxResults);
-        return COMPLEX_QUERY_METHODS.get(query.keySet())
-                .apply(values.toArray())
-                .stream()
+        List<Sentence> sentences = COMPLEX_QUERY_METHODS.get(query.keySet()).apply(values.toArray());
+        if (sentences.isEmpty())
+        {
+            throw new NoSentencesFoundException("No sentences found");
+        }
+        return sentences.stream()
                 .map(x -> new SentenceDto(x.getId(), x.getOriginalSentence()))
                 .toList();
     }
 
     public List<SentenceDto> getBySimpleQuery(String queryString, int page, int maxResults)
     {
-        return sentenceDao.getByQuery(queryString, page, maxResults)
-                .stream()
+        List<Sentence> sentences = sentenceDao.getByQuery(queryString, page, maxResults);
+        if (sentences.isEmpty())
+        {
+            throw new NoSentencesFoundException("No sentences found");
+        }
+        return sentences.stream()
                 .map(x -> new SentenceDto(x.getId(), x.getOriginalSentence()))
                 .toList();
     }
 
     public List<WordDto> getWordlist(long id)
     {
-        return sentenceDao.getById(id).getWordlist()
+        Sentence s = sentenceDao.getById(id);
+        if (s == null)
+        {
+            throw new NoSentencesFoundException("Sentence with id " + id + " does not exist");
+        }
+        return s.getWordlist()
                 .stream()
                 .map(x -> new WordDto(
                         x.getWord(), x.getLemma(),

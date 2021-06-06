@@ -41,5 +41,4 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilter(filter).authorizeRequests().anyRequest().authenticated();
     }
-
 }

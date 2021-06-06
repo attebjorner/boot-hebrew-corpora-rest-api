@@ -1,4 +1,4 @@
-package com.attebjorner.hebara.config;
+package com.attebjorner.hebara.auth;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableWebSecurity
 @PropertySource("classpath:apikey.properties")
 @Order(1)
-public class APISecurityConfig extends WebSecurityConfigurerAdapter
+public class ApiKeyAuthSecurityConfig extends WebSecurityConfigurerAdapter
 {
     @Value("${http.auth-token-header-name}")
     private String principalRequestHeader;
@@ -25,7 +25,8 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception
     {
-        APIKeyAuthFilter filter = new APIKeyAuthFilter(principalRequestHeader);
+        httpSecurity.exceptionHandling().authenticationEntryPoint(new ApiKeyAuthEntryPoint());
+        ApiKeyAuthFilter filter = new ApiKeyAuthFilter(principalRequestHeader);
         filter.setAuthenticationManager(authentication ->
         {
             String principal = (String) authentication.getPrincipal();

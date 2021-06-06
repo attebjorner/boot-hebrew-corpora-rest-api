@@ -1,14 +1,14 @@
-package com.attebjorner.hebara.config;
+package com.attebjorner.hebara.auth;
 
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class APIKeyAuthFilter extends AbstractPreAuthenticatedProcessingFilter
+public class ApiKeyAuthFilter extends AbstractPreAuthenticatedProcessingFilter
 {
     private String principalRequestHeader;
 
-    public APIKeyAuthFilter(String principalRequestHeader)
+    public ApiKeyAuthFilter(String principalRequestHeader)
     {
         this.principalRequestHeader = principalRequestHeader;
     }

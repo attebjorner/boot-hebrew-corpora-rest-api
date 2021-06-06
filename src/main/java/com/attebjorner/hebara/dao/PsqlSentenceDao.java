@@ -1,19 +1,14 @@
 package com.attebjorner.hebara.dao;
 
 import com.attebjorner.hebara.model.Sentence;
-import com.attebjorner.hebara.model.Word;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Repository
 public class PsqlSentenceDao implements SentenceDao
